@@ -1,0 +1,51 @@
+﻿@model IEnumerable<RailwayBooking.Trip>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Trip_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Trip_Start_Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Trip_End_Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Train.TrainName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Trip_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Trip_Start_Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Trip_End_Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Train.TrainName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

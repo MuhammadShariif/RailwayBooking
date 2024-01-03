@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0646d6ba374c4ecc997df5db773cd780" Name="Diagram1">
+        <EntityTypeShape EntityType="RailwayBookingModel.Booking" Width="1.5" PointX="2.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Booking_Detail" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Coach" Width="1.5" PointX="3.625" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Coach_Type" Width="1.5" PointX="12.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Customer" Width="1.5" PointX="4.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Seat" Width="1.5" PointX="7.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Seat_Type" Width="1.5" PointX="8.625" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Station" Width="1.5" PointX="10.875" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Station_Details" Width="1.5" PointX="12.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Train" Width="1.5" PointX="0.5" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Trip" Width="1.5" PointX="9.625" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="RailwayBookingModel.Trip_Price" Width="1.5" PointX="6.375" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="RailwayBookingModel.FK_Booking_DetailsBooking" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_BookingCustomer" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_BookingTrain" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_CoachTrain" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_Trip_PriceCoach_Type" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_SeatTrain" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_Trip_PriceSeat_Type" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_Station_DetailsStation" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_Station_DetailsTrain" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_Trip_PriceTrain" ManuallyRouted="false" />
+        <AssociationConnector Association="RailwayBookingModel.FK_TripTrain" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

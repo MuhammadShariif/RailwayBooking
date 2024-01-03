@@ -1,0 +1,56 @@
+﻿@model RailwayBooking.Trip_Price
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Trip_Price</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Rate_Current)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rate_Current)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Coach_Type.Coach_Type1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Coach_Type.Coach_Type1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seat_Type.Seat_Type_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Seat_Type.Seat_Type_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Train.TrainName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Train.TrainName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

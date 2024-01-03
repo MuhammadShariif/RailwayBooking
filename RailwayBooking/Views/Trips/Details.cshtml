@@ -1,0 +1,50 @@
+﻿@model RailwayBooking.Trip
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Trip</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Trip_Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Trip_Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Trip_Start_Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Trip_Start_Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Trip_End_Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Trip_End_Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Train.TrainName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Train.TrainName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

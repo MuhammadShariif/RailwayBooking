@@ -1,0 +1,50 @@
+﻿@model RailwayBooking.Trip_Price
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Trip_Price</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Rate_Current)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rate_Current)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Coach_Type.Coach_Type1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Coach_Type.Coach_Type1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seat_Type.Seat_Type_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Seat_Type.Seat_Type_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Train.TrainName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Train.TrainName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

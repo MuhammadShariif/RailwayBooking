@@ -1,0 +1,865 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RailwayBookingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Booking_ID" />
+          </Key>
+          <Property Name="Booking_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Booking_Date" Type="date" />
+          <Property Name="Booking_Time" Type="time" Precision="7" />
+          <Property Name="Customer_Phone" Type="bigint" />
+          <Property Name="Trip_ID" Type="int" />
+          <Property Name="Train_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Booking_Detail">
+          <Key>
+            <PropertyRef Name="Booking_ID" />
+            <PropertyRef Name="Seat_No" />
+            <PropertyRef Name="Coach_ID" />
+          </Key>
+          <Property Name="Booking_ID" Type="int" Nullable="false" />
+          <Property Name="Seat_No" Type="int" Nullable="false" />
+          <Property Name="Coach_ID" Type="int" Nullable="false" />
+          <Property Name="Booking_Price" Type="money" />
+        </EntityType>
+        <EntityType Name="Coach">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Coach_ID" />
+          </Key>
+          <Property Name="Train_ID" Type="int" Nullable="false" />
+          <Property Name="Coach_ID" Type="int" Nullable="false" />
+          <Property Name="Coach_No" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'RailwayBooking.dbo.Coach_Coach_Type' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Coach_Coach_Type">
+          <Property Name="Coach_ID" Type="int" />
+        </EntityType>-->
+        <EntityType Name="Coach_Type">
+          <Key>
+            <PropertyRef Name="Coach_ID" />
+          </Key>
+          <Property Name="Coach_ID" Type="int" Nullable="false" />
+          <Property Name="Coach_Type" Type="varchar" MaxLength="25" />
+          <Property Name="Capacity" Type="int" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerPhone" />
+          </Key>
+          <Property Name="CustomerPhone" Type="bigint" Nullable="false" />
+          <Property Name="CustomerCNIC" Type="bigint" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="35" />
+          <Property Name="CustonmerEmail" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'RailwayBooking.dbo.Price' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Price">
+          <Property Name="Train_ID" Type="int" />
+          <Property Name="Coach_Id" Type="int" />
+          <Property Name="Seat_Type_ID" Type="int" />
+          <Property Name="Trip_ID" Type="int" />
+        </EntityType>-->
+        <EntityType Name="Seat">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Coach_ID" />
+            <PropertyRef Name="Seat_No" />
+          </Key>
+          <Property Name="Train_ID" Type="int" Nullable="false" />
+          <Property Name="Coach_ID" Type="int" Nullable="false" />
+          <Property Name="Seat_No" Type="int" Nullable="false" />
+          <Property Name="Seat_Type_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'RailwayBooking.dbo.Seat_Seat_Type' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Seat_Seat_Type">
+          <Property Name="Train_ID" Type="int" />
+          <Property Name="Coach_ID" Type="int" />
+          <Property Name="Seat_Type_ID" Type="int" />
+        </EntityType>-->
+        <EntityType Name="Seat_Type">
+          <Key>
+            <PropertyRef Name="Seat_Type_ID" />
+          </Key>
+          <Property Name="Seat_Type_ID" Type="int" Nullable="false" />
+          <Property Name="Seat_Type_Name" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="Station_ID" />
+          </Key>
+          <Property Name="Station_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Station_Name" Type="varchar" MaxLength="35" />
+        </EntityType>
+        <EntityType Name="Station_Details">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Station_ID" />
+          </Key>
+          <Property Name="Train_ID" Type="int" Nullable="false" />
+          <Property Name="Station_ID" Type="int" Nullable="false" />
+          <Property Name="Sequence_No" Type="int" />
+          <Property Name="Station_Arrival_Time" Type="time" Precision="7" />
+          <Property Name="Station_Departure_Time" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="Train">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+          </Key>
+          <Property Name="Train_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainName" Type="varchar" MaxLength="50" />
+          <Property Name="LocationStart" Type="varchar" MaxLength="50" />
+          <Property Name="LocationEnd" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Trip">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Trip_ID" />
+          </Key>
+          <Property Name="Train_ID" Type="int" Nullable="false" />
+          <Property Name="Trip_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Trip_Date" Type="date" />
+          <Property Name="Trip_Start_Location" Type="varchar" MaxLength="35" />
+          <Property Name="Trip_End_Location" Type="varchar" MaxLength="35" />
+        </EntityType>
+        <EntityType Name="Trip_Price">
+          <Key>
+            <PropertyRef Name="Trip_ID" />
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Seat_Type_ID" />
+            <PropertyRef Name="Coach_ID" />
+          </Key>
+          <Property Name="Trip_ID" Type="int" Nullable="false" />
+          <Property Name="Train_ID" Type="int" Nullable="false" />
+          <Property Name="Seat_Type_ID" Type="int" Nullable="false" />
+          <Property Name="Coach_ID" Type="int" Nullable="false" />
+          <Property Name="Rate_Current" Type="money" />
+        </EntityType>
+        <Association Name="FK_Booking_DetailsBooking">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="Booking_Detail" Type="Self.Booking_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="Booking_ID" />
+            </Principal>
+            <Dependent Role="Booking_Detail">
+              <PropertyRef Name="Booking_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Booking_DetailsCoach' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Booking_DetailsCoach" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Booking_DetailsSeat' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Booking_DetailsSeat" />-->
+        <Association Name="FK_BookingCustomer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerPhone" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Customer_Phone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_BookingTrip' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_BookingTrip" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'RailwayBooking.dbo.Coach_Coach_Type' is referenced by a relationship, but cannot be found.
+        <Association Name="Fk_Coach_Coach_TypeCoach" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'RailwayBooking.dbo.Coach_Coach_Type' is referenced by a relationship, but cannot be found.
+        <Association Name="Fk_Coach_Coach_TypeCoach_Type" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Coach_TypeCoach' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Coach_TypeCoach" />-->
+        <Association Name="FK_CoachTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Coach" Type="Self.Coach" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Coach">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'RailwayBooking.dbo.Price' is referenced by a relationship, but cannot be found.
+        <Association Name="Fk_PriceCoach_Type" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'RailwayBooking.dbo.Price' is referenced by a relationship, but cannot be found.
+        <Association Name="Fk_PriceSeat_Type" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'RailwayBooking.dbo.Price' is referenced by a relationship, but cannot be found.
+        <Association Name="Fk_PriceTrain" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'RailwayBooking.dbo.Price' is referenced by a relationship, but cannot be found.
+        <Association Name="Fk_PriceTrip" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'RailwayBooking.dbo.Seat_Seat_Type' is referenced by a relationship, but cannot be found.
+        <Association Name="Fk_Seat_Seat_TypeCoach" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'RailwayBooking.dbo.Seat_Seat_Type' is referenced by a relationship, but cannot be found.
+        <Association Name="Fk_Seat_Seat_TypeSeat_Type" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'RailwayBooking.dbo.Seat_Seat_Type' is referenced by a relationship, but cannot be found.
+        <Association Name="Fk_Seat_Seat_TypeTrain" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Seat_TypeSeat' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Seat_TypeSeat" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_SeatCoach' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_SeatCoach" />-->
+        <Association Name="FK_SeatTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Seat" Type="Self.Seat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Seat">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Station_DetailsStation">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Station_Details" Type="Self.Station_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="Station_ID" />
+            </Principal>
+            <Dependent Role="Station_Details">
+              <PropertyRef Name="Station_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Station_DetailsTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Station_Details" Type="Self.Station_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Station_Details">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trip_PriceCoach_Type">
+          <End Role="Coach_Type" Type="Self.Coach_Type" Multiplicity="1" />
+          <End Role="Trip_Price" Type="Self.Trip_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coach_Type">
+              <PropertyRef Name="Coach_ID" />
+            </Principal>
+            <Dependent Role="Trip_Price">
+              <PropertyRef Name="Coach_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trip_PriceSeat_Type">
+          <End Role="Seat_Type" Type="Self.Seat_Type" Multiplicity="1" />
+          <End Role="Trip_Price" Type="Self.Trip_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seat_Type">
+              <PropertyRef Name="Seat_Type_ID" />
+            </Principal>
+            <Dependent Role="Trip_Price">
+              <PropertyRef Name="Seat_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trip_PriceTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Trip_Price" Type="Self.Trip_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Trip_Price">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TripTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Trip" Type="Self.Trip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Trip">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RailwayBookingModelStoreContainer">
+          <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Booking_Detail" EntityType="Self.Booking_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coach" EntityType="Self.Coach" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coach_Type" EntityType="Self.Coach_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seat" EntityType="Self.Seat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seat_Type" EntityType="Self.Seat_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Station" EntityType="Self.Station" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Station_Details" EntityType="Self.Station_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Train" EntityType="Self.Train" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trip" EntityType="Self.Trip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trip_Price" EntityType="Self.Trip_Price" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Booking_DetailsBooking" Association="Self.FK_Booking_DetailsBooking">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="Booking_Detail" EntitySet="Booking_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingCustomer" Association="Self.FK_BookingCustomer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingTrain" Association="Self.FK_BookingTrain">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CoachTrain" Association="Self.FK_CoachTrain">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Coach" EntitySet="Coach" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeatTrain" Association="Self.FK_SeatTrain">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Seat" EntitySet="Seat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Station_DetailsStation" Association="Self.FK_Station_DetailsStation">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Station_Details" EntitySet="Station_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Station_DetailsTrain" Association="Self.FK_Station_DetailsTrain">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Station_Details" EntitySet="Station_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trip_PriceCoach_Type" Association="Self.FK_Trip_PriceCoach_Type">
+            <End Role="Coach_Type" EntitySet="Coach_Type" />
+            <End Role="Trip_Price" EntitySet="Trip_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trip_PriceSeat_Type" Association="Self.FK_Trip_PriceSeat_Type">
+            <End Role="Seat_Type" EntitySet="Seat_Type" />
+            <End Role="Trip_Price" EntitySet="Trip_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trip_PriceTrain" Association="Self.FK_Trip_PriceTrain">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Trip_Price" EntitySet="Trip_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TripTrain" Association="Self.FK_TripTrain">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Trip" EntitySet="Trip" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RailwayBookingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Booking_ID" />
+          </Key>
+          <Property Name="Booking_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Booking_Date" Type="DateTime" Precision="0" />
+          <Property Name="Booking_Time" Type="Time" Precision="7" />
+          <Property Name="Customer_Phone" Type="Int64" />
+          <Property Name="Trip_ID" Type="Int32" />
+          <Property Name="Train_ID" Type="Int32" />
+          <NavigationProperty Name="Booking_Detail" Relationship="Self.FK_Booking_DetailsBooking" FromRole="Booking" ToRole="Booking_Detail" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_BookingCustomer" FromRole="Booking" ToRole="Customer" />
+          <NavigationProperty Name="Train" Relationship="Self.FK_BookingTrain" FromRole="Booking" ToRole="Train" />
+        </EntityType>
+        <EntityType Name="Booking_Detail">
+          <Key>
+            <PropertyRef Name="Booking_ID" />
+            <PropertyRef Name="Seat_No" />
+            <PropertyRef Name="Coach_ID" />
+          </Key>
+          <Property Name="Booking_ID" Type="Int32" Nullable="false" />
+          <Property Name="Seat_No" Type="Int32" Nullable="false" />
+          <Property Name="Coach_ID" Type="Int32" Nullable="false" />
+          <Property Name="Booking_Price" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Booking" Relationship="Self.FK_Booking_DetailsBooking" FromRole="Booking_Detail" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Coach">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Coach_ID" />
+          </Key>
+          <Property Name="Train_ID" Type="Int32" Nullable="false" />
+          <Property Name="Coach_ID" Type="Int32" Nullable="false" />
+          <Property Name="Coach_No" Type="Int32" />
+          <NavigationProperty Name="Train" Relationship="Self.FK_CoachTrain" FromRole="Coach" ToRole="Train" />
+        </EntityType>
+        <EntityType Name="Coach_Type">
+          <Key>
+            <PropertyRef Name="Coach_ID" />
+          </Key>
+          <Property Name="Coach_ID" Type="Int32" Nullable="false" />
+          <Property Name="Coach_Type1" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Capacity" Type="Int32" />
+          <NavigationProperty Name="Trip_Price" Relationship="Self.FK_Trip_PriceCoach_Type" FromRole="Coach_Type" ToRole="Trip_Price" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerPhone" />
+          </Key>
+          <Property Name="CustomerPhone" Type="Int64" Nullable="false" />
+          <Property Name="CustomerCNIC" Type="Int64" />
+          <Property Name="CustomerName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="CustonmerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_BookingCustomer" FromRole="Customer" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Seat">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Coach_ID" />
+            <PropertyRef Name="Seat_No" />
+          </Key>
+          <Property Name="Train_ID" Type="Int32" Nullable="false" />
+          <Property Name="Coach_ID" Type="Int32" Nullable="false" />
+          <Property Name="Seat_No" Type="Int32" Nullable="false" />
+          <Property Name="Seat_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Train" Relationship="Self.FK_SeatTrain" FromRole="Seat" ToRole="Train" />
+        </EntityType>
+        <EntityType Name="Seat_Type">
+          <Key>
+            <PropertyRef Name="Seat_Type_ID" />
+          </Key>
+          <Property Name="Seat_Type_ID" Type="Int32" Nullable="false" />
+          <Property Name="Seat_Type_Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Trip_Price" Relationship="Self.FK_Trip_PriceSeat_Type" FromRole="Seat_Type" ToRole="Trip_Price" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="Station_ID" />
+          </Key>
+          <Property Name="Station_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Station_Name" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Station_Details" Relationship="Self.FK_Station_DetailsStation" FromRole="Station" ToRole="Station_Details" />
+        </EntityType>
+        <EntityType Name="Station_Details">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Station_ID" />
+          </Key>
+          <Property Name="Train_ID" Type="Int32" Nullable="false" />
+          <Property Name="Station_ID" Type="Int32" Nullable="false" />
+          <Property Name="Sequence_No" Type="Int32" />
+          <Property Name="Station_Arrival_Time" Type="Time" Precision="7" />
+          <Property Name="Station_Departure_Time" Type="Time" Precision="7" />
+          <NavigationProperty Name="Station" Relationship="Self.FK_Station_DetailsStation" FromRole="Station_Details" ToRole="Station" />
+          <NavigationProperty Name="Train" Relationship="Self.FK_Station_DetailsTrain" FromRole="Station_Details" ToRole="Train" />
+        </EntityType>
+        <EntityType Name="Train">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+          </Key>
+          <Property Name="Train_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LocationStart" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LocationEnd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_BookingTrain" FromRole="Train" ToRole="Booking" />
+          <NavigationProperty Name="Coaches" Relationship="Self.FK_CoachTrain" FromRole="Train" ToRole="Coach" />
+          <NavigationProperty Name="Seats" Relationship="Self.FK_SeatTrain" FromRole="Train" ToRole="Seat" />
+          <NavigationProperty Name="Station_Details" Relationship="Self.FK_Station_DetailsTrain" FromRole="Train" ToRole="Station_Details" />
+          <NavigationProperty Name="Trip_Price" Relationship="Self.FK_Trip_PriceTrain" FromRole="Train" ToRole="Trip_Price" />
+          <NavigationProperty Name="Trips" Relationship="Self.FK_TripTrain" FromRole="Train" ToRole="Trip" />
+        </EntityType>
+        <EntityType Name="Trip">
+          <Key>
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Trip_ID" />
+          </Key>
+          <Property Name="Train_ID" Type="Int32" Nullable="false" />
+          <Property Name="Trip_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Trip_Date" Type="DateTime" Precision="0" />
+          <Property Name="Trip_Start_Location" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Trip_End_Location" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Train" Relationship="Self.FK_TripTrain" FromRole="Trip" ToRole="Train" />
+        </EntityType>
+        <EntityType Name="Trip_Price">
+          <Key>
+            <PropertyRef Name="Trip_ID" />
+            <PropertyRef Name="Train_ID" />
+            <PropertyRef Name="Seat_Type_ID" />
+            <PropertyRef Name="Coach_ID" />
+          </Key>
+          <Property Name="Trip_ID" Type="Int32" Nullable="false" />
+          <Property Name="Train_ID" Type="Int32" Nullable="false" />
+          <Property Name="Seat_Type_ID" Type="Int32" Nullable="false" />
+          <Property Name="Coach_ID" Type="Int32" Nullable="false" />
+          <Property Name="Rate_Current" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Coach_Type" Relationship="Self.FK_Trip_PriceCoach_Type" FromRole="Trip_Price" ToRole="Coach_Type" />
+          <NavigationProperty Name="Seat_Type" Relationship="Self.FK_Trip_PriceSeat_Type" FromRole="Trip_Price" ToRole="Seat_Type" />
+          <NavigationProperty Name="Train" Relationship="Self.FK_Trip_PriceTrain" FromRole="Trip_Price" ToRole="Train" />
+        </EntityType>
+        <Association Name="FK_Booking_DetailsBooking">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="Booking_Detail" Type="Self.Booking_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="Booking_ID" />
+            </Principal>
+            <Dependent Role="Booking_Detail">
+              <PropertyRef Name="Booking_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingCustomer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerPhone" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Customer_Phone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CoachTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Coach" Type="Self.Coach" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Coach">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trip_PriceCoach_Type">
+          <End Role="Coach_Type" Type="Self.Coach_Type" Multiplicity="1" />
+          <End Role="Trip_Price" Type="Self.Trip_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coach_Type">
+              <PropertyRef Name="Coach_ID" />
+            </Principal>
+            <Dependent Role="Trip_Price">
+              <PropertyRef Name="Coach_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeatTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Seat" Type="Self.Seat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Seat">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trip_PriceSeat_Type">
+          <End Role="Seat_Type" Type="Self.Seat_Type" Multiplicity="1" />
+          <End Role="Trip_Price" Type="Self.Trip_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seat_Type">
+              <PropertyRef Name="Seat_Type_ID" />
+            </Principal>
+            <Dependent Role="Trip_Price">
+              <PropertyRef Name="Seat_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Station_DetailsStation">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Station_Details" Type="Self.Station_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="Station_ID" />
+            </Principal>
+            <Dependent Role="Station_Details">
+              <PropertyRef Name="Station_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Station_DetailsTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Station_Details" Type="Self.Station_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Station_Details">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trip_PriceTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Trip_Price" Type="Self.Trip_Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Trip_Price">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TripTrain">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Trip" Type="Self.Trip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Train_ID" />
+            </Principal>
+            <Dependent Role="Trip">
+              <PropertyRef Name="Train_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RailwayBookingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="Booking_Detail" EntityType="Self.Booking_Detail" />
+          <EntitySet Name="Coaches" EntityType="Self.Coach" />
+          <EntitySet Name="Coach_Type" EntityType="Self.Coach_Type" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Seats" EntityType="Self.Seat" />
+          <EntitySet Name="Seat_Type" EntityType="Self.Seat_Type" />
+          <EntitySet Name="Stations" EntityType="Self.Station" />
+          <EntitySet Name="Station_Details" EntityType="Self.Station_Details" />
+          <EntitySet Name="Trains" EntityType="Self.Train" />
+          <EntitySet Name="Trips" EntityType="Self.Trip" />
+          <EntitySet Name="Trip_Price" EntityType="Self.Trip_Price" />
+          <AssociationSet Name="FK_Booking_DetailsBooking" Association="Self.FK_Booking_DetailsBooking">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="Booking_Detail" EntitySet="Booking_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingCustomer" Association="Self.FK_BookingCustomer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingTrain" Association="Self.FK_BookingTrain">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CoachTrain" Association="Self.FK_CoachTrain">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="Coach" EntitySet="Coaches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trip_PriceCoach_Type" Association="Self.FK_Trip_PriceCoach_Type">
+            <End Role="Coach_Type" EntitySet="Coach_Type" />
+            <End Role="Trip_Price" EntitySet="Trip_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeatTrain" Association="Self.FK_SeatTrain">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="Seat" EntitySet="Seats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trip_PriceSeat_Type" Association="Self.FK_Trip_PriceSeat_Type">
+            <End Role="Seat_Type" EntitySet="Seat_Type" />
+            <End Role="Trip_Price" EntitySet="Trip_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Station_DetailsStation" Association="Self.FK_Station_DetailsStation">
+            <End Role="Station" EntitySet="Stations" />
+            <End Role="Station_Details" EntitySet="Station_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Station_DetailsTrain" Association="Self.FK_Station_DetailsTrain">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="Station_Details" EntitySet="Station_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trip_PriceTrain" Association="Self.FK_Trip_PriceTrain">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="Trip_Price" EntitySet="Trip_Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TripTrain" Association="Self.FK_TripTrain">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="Trip" EntitySet="Trips" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RailwayBookingModelStoreContainer" CdmEntityContainer="RailwayBookingEntities">
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Booking">
+              <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="Booking_ID" ColumnName="Booking_ID" />
+                <ScalarProperty Name="Booking_Date" ColumnName="Booking_Date" />
+                <ScalarProperty Name="Booking_Time" ColumnName="Booking_Time" />
+                <ScalarProperty Name="Customer_Phone" ColumnName="Customer_Phone" />
+                <ScalarProperty Name="Trip_ID" ColumnName="Trip_ID" />
+                <ScalarProperty Name="Train_ID" ColumnName="Train_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Booking_Detail">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Booking_Detail">
+              <MappingFragment StoreEntitySet="Booking_Detail">
+                <ScalarProperty Name="Booking_ID" ColumnName="Booking_ID" />
+                <ScalarProperty Name="Seat_No" ColumnName="Seat_No" />
+                <ScalarProperty Name="Coach_ID" ColumnName="Coach_ID" />
+                <ScalarProperty Name="Booking_Price" ColumnName="Booking_Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coaches">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Coach">
+              <MappingFragment StoreEntitySet="Coach">
+                <ScalarProperty Name="Train_ID" ColumnName="Train_ID" />
+                <ScalarProperty Name="Coach_ID" ColumnName="Coach_ID" />
+                <ScalarProperty Name="Coach_No" ColumnName="Coach_No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coach_Type">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Coach_Type">
+              <MappingFragment StoreEntitySet="Coach_Type">
+                <ScalarProperty Name="Coach_ID" ColumnName="Coach_ID" />
+                <ScalarProperty Name="Coach_Type1" ColumnName="Coach_Type" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+                <ScalarProperty Name="CustomerCNIC" ColumnName="CustomerCNIC" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustonmerEmail" ColumnName="CustonmerEmail" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seats">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Seat">
+              <MappingFragment StoreEntitySet="Seat">
+                <ScalarProperty Name="Train_ID" ColumnName="Train_ID" />
+                <ScalarProperty Name="Coach_ID" ColumnName="Coach_ID" />
+                <ScalarProperty Name="Seat_No" ColumnName="Seat_No" />
+                <ScalarProperty Name="Seat_Type_ID" ColumnName="Seat_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seat_Type">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Seat_Type">
+              <MappingFragment StoreEntitySet="Seat_Type">
+                <ScalarProperty Name="Seat_Type_ID" ColumnName="Seat_Type_ID" />
+                <ScalarProperty Name="Seat_Type_Name" ColumnName="Seat_Type_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stations">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Station">
+              <MappingFragment StoreEntitySet="Station">
+                <ScalarProperty Name="Station_ID" ColumnName="Station_ID" />
+                <ScalarProperty Name="Station_Name" ColumnName="Station_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Station_Details">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Station_Details">
+              <MappingFragment StoreEntitySet="Station_Details">
+                <ScalarProperty Name="Train_ID" ColumnName="Train_ID" />
+                <ScalarProperty Name="Station_ID" ColumnName="Station_ID" />
+                <ScalarProperty Name="Sequence_No" ColumnName="Sequence_No" />
+                <ScalarProperty Name="Station_Arrival_Time" ColumnName="Station_Arrival_Time" />
+                <ScalarProperty Name="Station_Departure_Time" ColumnName="Station_Departure_Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trains">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Train">
+              <MappingFragment StoreEntitySet="Train">
+                <ScalarProperty Name="Train_ID" ColumnName="Train_ID" />
+                <ScalarProperty Name="TrainName" ColumnName="TrainName" />
+                <ScalarProperty Name="LocationStart" ColumnName="LocationStart" />
+                <ScalarProperty Name="LocationEnd" ColumnName="LocationEnd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trips">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Trip">
+              <MappingFragment StoreEntitySet="Trip">
+                <ScalarProperty Name="Train_ID" ColumnName="Train_ID" />
+                <ScalarProperty Name="Trip_ID" ColumnName="Trip_ID" />
+                <ScalarProperty Name="Trip_Date" ColumnName="Trip_Date" />
+                <ScalarProperty Name="Trip_Start_Location" ColumnName="Trip_Start_Location" />
+                <ScalarProperty Name="Trip_End_Location" ColumnName="Trip_End_Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trip_Price">
+            <EntityTypeMapping TypeName="RailwayBookingModel.Trip_Price">
+              <MappingFragment StoreEntitySet="Trip_Price">
+                <ScalarProperty Name="Trip_ID" ColumnName="Trip_ID" />
+                <ScalarProperty Name="Train_ID" ColumnName="Train_ID" />
+                <ScalarProperty Name="Seat_Type_ID" ColumnName="Seat_Type_ID" />
+                <ScalarProperty Name="Coach_ID" ColumnName="Coach_ID" />
+                <ScalarProperty Name="Rate_Current" ColumnName="Rate_Current" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

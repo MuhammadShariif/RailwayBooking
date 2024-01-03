@@ -1,0 +1,36 @@
+﻿@model RailwayBooking.Models.UserDashboard
+
+@{
+    ViewBag.Title = "Other_Values";
+}
+
+<h2>Other_Values</h2>
+
+@using (Html.BeginForm("Other_Values", "UserBooking", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>UserDashboard</h4>
+        @Html.Label("Trip Starting Location")
+        <br />
+        <input type="text" name="Trip_Start_Location" required="" />
+        <br />
+        @Html.Label("Trip Ending Location")
+        <br />
+        <input type="text" name="Trip_Start_Location" required="" />
+        <br />
+        @Html.Label("Trip Date Location")
+        <br />
+        <input type="date" name="Trip_Start_Location" required="" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
